@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Are Australians So Happy?</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  #topBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(201,168,76,0.3);
+  background: rgba(26,17,8,0.9);
+  color: var(--gold);
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+  z-index: 150;
+}
+
+#topBtn:hover {
+  background: rgba(201,168,76,0.1);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+#topBtn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+  #progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--gold);
+  width: 0%;
+  z-index: 200;
+}
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --cream: #F5EDD8;
+    --dark: #1A1108;
+    --charcoal: #2D2416;
+    --rust: #C0392B;
+    --rust-light: #E74C3C;
+    --teal: #1A6B5A;
+    --teal-light: #27AE8F;
+    --sand: #D4B896;
+    --muted: #7A6A52;
+    --white: #FDFAF4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26, 17, 8, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sand);
+    text-decoration: none;
+    transition: color 0.2s;
+    line-height: 56px;
+  }
+
+  .nav-links a:hover { color: var(--gold-light); }
+
+  .hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 22px;
+  height: 2px;
+  background: var(--gold);
+  transition: all 0.3s ease;
+}
+
+  /* SECTIONS */
+  section {
+    min-height: 100vh;
+    padding: 80px 0 60px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  /* SECTION LABELS */
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-tag::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 48px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* === SECTION 1: INTRO === */
+  #intro {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #intro::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 55%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, rgba(201,168,76,0.07) 0%, transparent 70%);
+  }
+
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .intro-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.08;
+    font-weight: 900;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .intro-body {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--sand);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    max-width: 520px;
+  }
+
+  .stat-trio {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .stat-box {
+    padding: 1.75rem 1.5rem;
+    background: rgba(201,168,76,0.04);
+    text-align: center;
+    border-right: 1px solid rgba(201,168,76,0.2);
+    position: relative;
+  }
+
+  .stat-box:last-child { border-right: none; }
+
+  .stat-box .number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-box sup {
+    font-size: 1.4rem;
+    vertical-align: super;
+  }
+
+  .stat-box .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sand);
+  }
+
+  /* === SECTION 2: PERCEPTION === */
+  #perception {
+    background: var(--charcoal);
+  }
+
+  .perception-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .perception-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .perception-body {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--sand);
+    font-weight: 300;
+  }
+
+  .campaign-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .campaign-card {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 2rem 1.5rem;
+    position: relative;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .campaign-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .campaign-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  .campaign-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .campaign-desc {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .campaign-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .question-callout {
+    margin-top: 3rem;
+    padding: 2rem 2.5rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(201,168,76,0.05);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.6;
+  }
+
+  /* === SECTION 3: GLOBAL STAGE === */
+  #global {
+    background: var(--dark);
+  }
+
+  .global-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .chart-block {
+    position: relative;
+  }
+
+  .chart-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .chart-subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 2rem;
+  }
+
+  .chart-wrap {
+    position: relative;
+    height: 320px;
+  }
+
+  /* === SECTION 4: PARADOX === */
+  #paradox {
+    background: var(--charcoal);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #paradox::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(192,57,43,0.06) 0%, transparent 70%);
+  }
+
+  .paradox-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .paradox-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.12;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+
+  .paradox-heading strong {
+    color: var(--rust-light);
+  }
+
+  .big-stats {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .big-stat-card {
+    border: 1px solid rgba(192,57,43,0.3);
+    background: rgba(192,57,43,0.06);
+    padding: 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--rust-light);
+  }
+
+  .big-stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--rust-light);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .big-stat-label {
+    font-size: 0.95rem;
+    color: var(--sand);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .paradox-question {
+    margin-top: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.5;
+  }
+
+  /* === SECTION 5: THE TRUTH === */
+  #truth {
+    background: var(--dark);
+  }
+
+  .truth-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .truth-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+
+  .truth-sub {
+    font-size: 1rem;
+    color: var(--sand);
+    font-weight: 300;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .pillars-chart-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    height: 380px;
+  }
+
+  .insight-callout {
+    margin-top: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem 2.5rem;
+    border-left: 3px solid var(--teal-light);
+    background: rgba(26,107,90,0.08);
+    font-size: 1rem;
+    color: var(--cream);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .insight-callout strong {
+    color: var(--teal-light);
+    font-weight: 500;
+  }
+
+  /* === SECTION 6: INSIDE AUSTRALIA === */
+  #inside {
+    background: var(--charcoal);
+  }
+
+  .inside-header {
+    margin-bottom: 3rem;
+  }
+
+  .inside-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+
+  .inside-sub {
+    font-size: 0.95rem;
+    color: var(--sand);
+    font-weight: 300;
+    max-width: 680px;
+    line-height: 1.7;
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .mini-chart-block { }
+
+  .mini-chart-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .mini-chart-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+
+  .mini-chart-wrap {
+    height: 240px;
+    position: relative;
+  }
+
+  /* === SECTION 7: CONCLUSION === */
+  #conclusion {
+    background: var(--dark);
+    min-height: auto;
+    padding: 80px 0;
+  }
+
+  .conclusion-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .conclusion-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+
+  .conclusion-heading em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .pillars-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.12);
+    margin: 2.5rem 0;
+  }
+
+  .pillar-item {
+    background: var(--dark);
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+  }
+
+  .pillar-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+  .pillar-icon svg,
+.campaign-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+..campaign-card:hover svg,
+.pillar-item:hover svg {
+  stroke: var(--gold-light);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+  .pillar-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .pillar-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--teal-light);
+  }
+
+  .pillar-vs {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 0.2rem;
+  }
+
+  .conclusion-body {
+    font-size: 1rem;
+    color: var(--sand);
+    line-height: 1.85;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .data-sources {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* Divider */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 56px;
+    right: 0;
+    background: rgba(26, 17, 8, 0.95);
+    flex-direction: column;
+    width: 200px;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+
+    display: flex; /* keep this */
+    border-left: 1px solid rgba(201,168,76,0.2);
+    z-index: 200; /* add this too */
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    padding: 1rem;
+    line-height: normal;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Is Australia really as active as we think?</div>
+  <div class="hamburger" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+  <ul class="nav-links">
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#perception">The Perception</a></li>
+    <li><a href="#global">The Data</a></li>
+    <li><a href="#paradox">The Paradox</a></li>
+    <li><a href="#truth">The Truth</a></li>
+    <li><a href="#inside">Inside AU</a></li>
+    <li><a href="#comparison">Comparison</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+
+<!-- 01 INTRO -->
+<section id="intro">
+  <div class="container">
+    <div class="intro-grid">
+      <div>
+        
+        <h1 class="intro-headline">Australia is doing<br>something <em>right.</em></h1>
+        <p class="intro-body">
+          Ranked #10 in the world for happiness, with a life expectancy of 83 years, Australia consistently ranks among the best in the world for wellbeing.
+
+          <p class="intro-body" style="margin-bottom: 0;">
+It’s also a country long defined by an image of sun, surf, and an active outdoor lifestyle.       </p>
+        <p class="intro-body" style="margin-bottom: 0;">
+Sounds like the perfect explanation… <em> but is it? </em>       </p>
+      </div>
+      <div class="reveal">
+        <div class="stat-trio">
+          <div class="stat-box">
+            <span class="number"><sup>#</sup>10</span>
+            <span class="label">Global Happiness Rank</span>
+          </div>
+          <div class="stat-box">
+            <span class="number">7.06</span>
+            <span class="label">Happiness Score</span>
+          </div>
+          <div class="stat-box">
+            <span class="number">83</span>
+            <span class="label">Life Expectancy (yrs)</span>
+          </div>
+        </div>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:1rem;letter-spacing:0.05em;">
+          SOURCE: <br>WORLD HAPPINESS REPORT 2024 AND <br> 
+          AUSTRALIAN BUREAU OF STATISTICS (2025) — LIFE EXPECTANCY, 2022–2024 (OECD 2023 DATA)
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 02 PERCEPTION -->
+<section id="perception">
+  
+  <div class="container">
+    <div class="perception-layout">
+      <div class="reveal">
+        
+        
+        <h2 class="perception-heading">The myth of the active Australian</h2>
+        <p class="perception-body">
+          For decades, Australia has sold the world a sun-soaked, high-energy lifestyle - where the outdoors is second nature and activewear is the uniform. Three iconic campaigns helped sell this image of Australia to the world.
+        <p class="perception-body" style="margin-top: 1rem;">
+          But does the data actually back this up?
+        </p>
+      </div>
+      <div>
+        <div class="campaign-cards">
+          <div class="campaign-card reveal reveal-delay-1"> 
+            <span class="campaign-icon">🏃</span>
+            <div class="campaign-year">1975 — ONGOING</div>
+            <div class="campaign-name">"Life. Be in It."</div>
+            <p class="campaign-desc">Encouraged Australians to get off the couch and embrace an active lifestyle. Became a defining piece of national identity.</p>
+          </div>
+          <div class="campaign-card reveal reveal-delay-2">
+            <span class="campaign-icon">🌊</span>
+            <div class="campaign-year">2006</div>
+            <div class="campaign-name">"Where the Bloody Hell Are You?"</div>
+            <p class="campaign-desc">Controversial but global tourism campaign positioning Australia as a destination for active outdoor adventure and a vibrant lifestyle.</p>
+          </div>
+          <div class="campaign-card reveal reveal-delay-3">
+            <span class="campaign-icon">🦘</span>
+            <div class="campaign-year">2010 — PRESENT</div>
+            <div class="campaign-name">"There's Nothing Like Australia"</div>
+            <p class="campaign-desc">Decades of deliberate image-building cementing the outdoor, active lifestyle as core to Australian national identity.</p>
+          </div>
+        </div>
+        <div class="question-callout reveal reveal-delay-4">
+          "What if this image of Australia isn’t reality - but branding"
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+<div class="section-divider"></div>
+
+
+
+<!-- 03 GLOBAL STAGE -->
+<section id="global">
+  <div class="container">
+    <div class="section-tag">World Happiness Report 2024</div>
+    <h2 class="chart-title reveal" style="font-size:clamp(1.8rem,3vw,2.5rem);margin-bottom:0.5rem;">Australia on the global stage</h2>
+    <p class="chart-subtitle reveal" style="font-size:0.85rem;margin-bottom:3rem;">Here's where Australia sits among 143 countries on the happiness index</p>
+    <div class="global-grid">
+      <div class="chart-block reveal">
+        <div class="chart-title">Top 10 Happiest Countries</div>
+        <div class="chart-subtitle">WHR 2024 - Happiness Score (0–10)</div>
+        <div class="chart-wrap">
+          <canvas id="top10Chart"></canvas>
+        </div>
+      </div>
+      <div class="chart-block reveal reveal-delay-2">
+        <div class="chart-title">Australia vs World Average</div>
+        <div class="chart-wrap">
+          <canvas id="driversChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 04 THE PARADOX -->
+<section id="paradox">
+  <div class="container">
+    <div class="paradox-layout">
+      <div>
+        
+        <h2 class="paradox-heading reveal">But are Australians actually that <strong>active?</strong></h2>
+        <p class="intro-body reveal" style="color:var(--sand);margin-bottom:2rem;">
+          Scratch beneath the surface and the data tells a very different story. The "active Australian" is largely a myth constructed through decades of marketing.
+        </p>
+        <div class="paradox-question reveal">
+         Physical activity isn’t the answer - so what <em>actually</em> makes the difference?
+        </div>
+      </div>
+      <div class="big-stats">
+        <div class="big-stat-card reveal">
+          <div class="big-stat-number">75.2<span style="font-size:2rem;">%</span></div>
+          <div class="big-stat-label">of Australian adults did <strong>NOT</strong> meet physical activity guidelines in 2022</div>
+        </div>
+        <div class="big-stat-card reveal reveal-delay-2">
+          <div class="big-stat-number">12.1<span style="font-size:2rem;">%</span></div>
+          <div class="big-stat-label">do <strong>zero minutes</strong> of physical activity at all</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 05 THE TRUTH -->
+<section id="truth">
+  <div class="container">
+    <div class="truth-header reveal">
+ 
+      <h2 class="truth-heading">Happiness drivers revealed</h2>
+      <p class="truth-sub">
+        The World Happiness Report reveals what's actually driving Australia's high scores. 
+      </p>
+    </div>
+    <div class="pillars-chart-wrap reveal">
+      <canvas id="pillarsChart"></canvas>
+    </div>
+    <div class="insight-callout reveal">
+      <strong>Social support and freedom score far above the world average -</strong> showing that Australia’s advantage comes from strong social systems - not how active it appears.
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+
+<!-- 06 INSIDE AUSTRALIA -->
+<section id="inside">
+  <div class="container">
+    <div class="inside-header reveal">
+
+      <h2 class="inside-heading">Inside Australia - who is active and who isn't</h2>
+      <p class="inside-sub">
+        Inactivity isn't uniform across Australia - it varies significantly by age, gender, income and location. The data reveals structural patterns that go far beyond individual lifestyle choices.
+      </p>
+    </div>
+    <div class="charts-grid">
+      <div class="mini-chart-block reveal">
+        <div class="mini-chart-title">By Age Group</div>
+        <div class="mini-chart-sub">% not meeting guidelines - ABS Table 11.3</div>
+        <div class="mini-chart-wrap"><canvas id="ageChart"></canvas></div>
+      </div>
+      <div class="mini-chart-block reveal reveal-delay-2">
+        <div class="mini-chart-title">By Gender</div>
+        <div class="mini-chart-sub">% not meeting guidelines - ABS Table 11.7 &amp; 11.11</div>
+        <div class="mini-chart-wrap"><canvas id="genderChart"></canvas></div>
+      </div>
+      <div class="mini-chart-block reveal">
+        <div class="mini-chart-title">By Socioeconomic Status</div>
+        <div class="mini-chart-sub">% not meeting guidelines - ABS Table 6.3, SEIFA quintiles</div>
+        <div class="mini-chart-wrap"><canvas id="seifaChart"></canvas></div>
+      </div>
+      <div class="mini-chart-block reveal reveal-delay-2">
+        <div class="mini-chart-title">By Location</div>
+        <div class="mini-chart-sub">% not meeting guidelines - ABS Table 6.3</div>
+        <div class="mini-chart-wrap"><canvas id="locationChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 07 COMPARISON -->
+<section id="comparison">
+  <div class="container">
+    <div class="inside-header reveal">
+      <h2 class="inside-heading">Let’s compare Australia and Switzerland</h2>
+      <p class="inside-sub">
+        Switzerland achieves high levels of physical activity compliance, while Australia struggles with inactivity. Yet both countries rank among the world's happiest - challenging our idea that <strong>higher activity means higher happiness</strong>.
+      </p>
+    </div>
+
+    <div class="charts-grid">
+
+      <!-- Chart 1 -->
+      <div class="mini-chart-block reveal">
+        <div class="mini-chart-title">Meeting Physical Activity Guidelines</div>
+        <div class="mini-chart-sub">
+          % of population meeting national recommendations (2022)
+        </div>
+        <div class="mini-chart-wrap">
+          <canvas id="compareChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2 -->
+      <div class="mini-chart-block reveal reveal-delay-2">
+        <div class="mini-chart-title">Switzerland Activity Breakdown</div>
+        <div class="mini-chart-sub">
+          Distribution of activity levels - Swiss population (2022)
+        </div>
+        <div class="mini-chart-wrap">
+          <canvas id="swissBreakdown"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Insight -->
+    <div class="insight-callout reveal">
+      <strong>Switzerland has nearly 3× the physical activity compliance of Australia.</strong>
+      Yet both countries rank highly in global happiness - suggesting that while physical activity supports health, it is not the defining factor behind national wellbeing.
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 08 CONCLUSION -->
+<section id="conclusion">
+  <div class="container">
+    <div class="conclusion-inner">
+
+      <h2 class="conclusion-heading reveal">
+        Australia is happy <br>but not because of its activity levels
+
+      </h2>
+      <p class="conclusion-body reveal">
+        The "active Australian" is one of history's most successful national branding exercises. The reality: three-quarters of adults don't meet basic physical activity guidelines. Yet Australia ranks #10 globally for happiness - pointing to a weak link between activity and wellbeing.
+      </p>
+
+      <div class="pillars-list reveal">
+        <div class="pillar-item">
+          <span class="pillar-icon">
+  <i data-lucide="users"></i>
+</span>
+          <div class="pillar-name">Social Support</div>
+          <div class="pillar-score">1.46</div>
+          <div class="pillar-vs">vs world avg 1.13</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-icon">
+  <i data-lucide="compass"></i></span>
+          <div class="pillar-name">Freedom</div>
+          <div class="pillar-score">0.76</div>
+          <div class="pillar-vs">vs world avg 0.62</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-icon">
+  <i data-lucide="dollar-sign"></i></span>
+          <div class="pillar-name">GDP per Capita</div>
+          <div class="pillar-score">1.854</div>
+          <div class="pillar-vs">vs world avg 1.379</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-icon">
+  <i data-lucide="heart-pulse"></i></span>
+          <div class="pillar-name">Healthy Life Expectancy</div>
+          <div class="pillar-score">69</div>
+          <div class="pillar-vs">vs world avg 52</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-icon">
+  <i data-lucide="hand-heart"></i></span>
+          <div class="pillar-name">Generosity</div>
+          <div class="pillar-score">0.225</div>
+          <div class="pillar-vs">vs world avg 0.146</div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-icon">
+  <i data-lucide="scale"></i></span>
+          <div class="pillar-name">Perceptions of Corruption</div>
+          <div class="pillar-score">0.323</div>
+          <div class="pillar-vs">vs world avg 0.154</div>
+        </div>
+      </div>
+
+      <p class="conclusion-body reveal">
+        The lesson is not that exercise doesn't matter - it does. But when explaining why Australia ranks among the world's happiest nations, the answer lies in its institutions, its social fabric, and its economic prosperity. Not its beaches.
+      </p>
+
+      <div class="data-sources reveal">
+        <strong>Data Sources:</strong><br>
+        World Happiness Report 2024 &nbsp;|&nbsp; 
+        Top 10 countries for life expectancy at birth(a), OECD, 2023
+        Australian Bureau of Statistics, National Health Survey 2022 &nbsp;|&nbsp; 
+        ABS Table 11.3: Physical activity by age, Persons aged 15+ &nbsp;|&nbsp; 
+        ABS Table 11.7: Physical activity by age, Males aged 15+ &nbsp;|&nbsp; 
+        ABS Table 11.11: Physical activity by age, Females aged 15+ &nbsp;|&nbsp; 
+        ABS Table 6.3: Health risk factors by population characteristics, Persons 18+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ============================================================
+// COLOUR PALETTES
+// ============================================================
+const GOLD = '#C9A84C';
+const GOLD_L = '#E8C96A';
+const CREAM = '#F5EDD8';
+const TEAL = '#27AE8F';
+const RUST = '#E74C3C';
+const SAND = '#D4B896';
+const MUTED = '#7A6A52';
+const DARK = '#1A1108';
+
+Chart.defaults.color = SAND;
+Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+Chart.defaults.font.size = 11;
+
+const gridColor = 'rgba(201,168,76,0.08)';
+const tooltipBg = 'rgba(26,17,8,0.95)';
+
+window.addEventListener('scroll', () => {
+  const scroll = window.scrollY;
+  const height = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('progress').style.width = (scroll/height)*100 + '%';
+});
+
+
+// ============================================================
+// TOP 10 CHART
+// ============================================================
+new Chart(document.getElementById('top10Chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Finland','Denmark','Iceland','Sweden','Israel','Netherlands','Norway','Luxembourg','Switzerland','Australia'],
+    datasets: [{
+      data: [7.74, 7.58, 7.53, 7.34, 7.34, 7.32, 7.30, 7.12, 7.06, 7.06],
+      backgroundColor: (ctx) => ctx.dataIndex === 9 ? GOLD : 'rgba(201,168,76,0.2)',
+      borderColor: (ctx) => ctx.dataIndex === 9 ? GOLD_L : 'rgba(201,168,76,0.35)',
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: GOLD,
+        borderWidth: 1,
+        titleColor: GOLD,
+        bodyColor: CREAM,
+        callbacks: {
+          label: ctx => {
+  const val = ctx.parsed.x;
+  return ctx.dataIndex === 9 
+    ? `Australia: ${val} ← You are here`
+    : `Score: ${val}`;
+}
+        }
+      }
+    },
+    scales: {
+      x: {
+        min: 6.5,
+        max: 8.0,
+        grid: { color: gridColor },
+        ticks: { color: MUTED }
+      },
+      y: {
+        grid: { display: false },
+        ticks: {
+          color: (ctx) => ctx.index === 9 ? GOLD_L : SAND
+        }
+      }
+    }
+  }
+});
+
+// ============================================================
+// DRIVERS CHART (Grouped Bar)
+// ============================================================
+new Chart(document.getElementById('driversChart'), {
+  type: 'bar',
+  data: {
+    labels: [
+  ['Social', 'Support'],
+  'Freedom',
+  ['GDP per Capita', '(log)'],
+  ['Healthy Life', 'Expectancy'],
+  'Generosity',
+  ['Perceptions of', 'Corruption']
+],
+    datasets: [
+      {
+        label: 'Australia',
+        data: [1.46, 0.76, 1.85, 0.69, 0.23, 0.32],
+        backgroundColor: GOLD,
+        borderColor: GOLD_L,
+        borderWidth: 1,
+      },
+      {
+        label: 'World Average',
+        data: [1.13, 0.62, 1.37, 0.52, 0.14, 0.14],
+        backgroundColor: 'rgba(201,168,76,0.18)',
+        borderColor: 'rgba(201,168,76,0.4)',
+        borderWidth: 1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: SAND, boxWidth: 12, font: { size: 10 } }
+      },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: GOLD,
+        borderWidth: 1,
+        titleColor: GOLD,
+        bodyColor: CREAM,
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: SAND, font: { size: 9 } }
+      },
+      y: {
+        min: 0.0,
+  max: 1.5,
+  grid: { color: gridColor },
+  ticks: {
+    stepSize: 0.1,
+    color: MUTED
+  }
+      }
+    }
+  }
+});
+
+// ============================================================
+// PILLARS CHART (Truth section)
+// ============================================================
+new Chart(document.getElementById('pillarsChart'), {
+  type: 'bar',
+  data: {
+    labels: [
+  ['Social', 'Support'],
+  'Freedom',
+  ['GDP per Capita', '(log)'],
+  ['Healthy Life', 'Expectancy'],
+  'Generosity',
+  ['Perceived', 'Corruption']
+],
+    datasets: [
+      {
+        label: 'Australia',
+        data: [1.46, 0.76, 1.85, 0.69, 0.23, 0.32],
+        backgroundColor: TEAL,
+        borderColor: '#2ECC71',
+        borderWidth: 1,
+      },
+      {
+        label: 'World Average',
+        data: [1.13, 0.62, 1.37, 0.52, 0.14, 0.14],
+        backgroundColor: 'rgba(39,174,143,0.2)',
+        borderColor: 'rgba(39,174,143,0.5)',
+        borderWidth: 1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: SAND, boxWidth: 12, font: { size: 11 } }
+      },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: TEAL,
+        borderWidth: 1,
+        titleColor: TEAL,
+        bodyColor: CREAM,
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: SAND }
+      },
+      y: {
+       min: 0.0,
+  max: 1.5,
+  grid: { color: gridColor },
+  ticks: {
+    stepSize: 0.1,
+    color: MUTED
+  }
+      }
+    }
+  }
+});
+// ============================================================
+// SWITZERLAND VS AUSTRALIA COMPARISON
+// ============================================================
+
+// Chart 1: Headline Comparison
+new Chart(document.getElementById('compareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Switzerland', 'Australia'],
+    datasets: [{
+      label: '% Meeting Guidelines',
+      data: [75.7, 24.8],
+      backgroundColor: [
+        'rgba(39,174,143,0.7)',  // Switzerland
+        'rgba(231,76,60,0.7)'    // Australia
+      ],
+      borderColor: [
+        'rgba(39,174,143,1)',
+        'rgba(231,76,60,1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(26,17,8,0.95)',
+        borderColor: '#C9A84C',
+        borderWidth: 1,
+        callbacks: {
+          label: ctx => `${ctx.parsed.y}% meet guidelines`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: '#D4B896' }
+      },
+      y: {
+        min: 0,
+        max: 100,
+        grid: { color: 'rgba(201,168,76,0.08)' },
+        ticks: {
+          color: '#7A6A52',
+          callback: val => val + '%'
+        }
+      }
+    }
+  }
+});
+
+
+// Chart 2: Switzerland Breakdown
+new Chart(document.getElementById('swissBreakdown'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Physically Fit', 'Regularly Active', 'Irregularly Active'],
+    datasets: [{
+      data: [30.1, 18.3, 27.4],
+      backgroundColor: [
+        'rgba(39,174,143,0.9)',
+        'rgba(39,174,143,0.6)',
+        'rgba(201,168,76,0.6)'
+      ],
+      borderColor: '#1A1108',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#D4B896',
+          font: { size: 10 }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(26,17,8,0.95)',
+        borderColor: '#27AE8F',
+        borderWidth: 1
+      }
+    }
+  }
+});
+// ============================================================
+// AGE CHART — % not meeting guidelines
+// ============================================================
+new Chart(document.getElementById('ageChart'), {
+  type: 'bar',
+  data: {
+    labels: ['15–17', '18–24', '25–34', '35–44', '45–54', '55–64', '65+'],
+    datasets: [{
+      label: '% Not Meeting Guidelines',
+      data: [93.2, 68.8, 72.7, 78.2, 82.3, 84.1, 66.5],
+      backgroundColor: (ctx) => {
+        const v = ctx.parsed.y;
+        return v >= 85 ? RUST : v >= 75 ? 'rgba(231,76,60,0.6)' : 'rgba(231,76,60,0.35)';
+      },
+      borderColor: 'rgba(231,76,60,0.6)',
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: RUST,
+        borderWidth: 1,
+        titleColor: '#E74C3C',
+        bodyColor: CREAM,
+        callbacks: { label: ctx => ` ${ctx.parsed.y}% inactive` }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: SAND, font: { size: 10 } } },
+      y: { min: 0, max: 100, grid: { color: gridColor }, ticks: { color: MUTED, callback: v => v + '%' } }
+    }
+  }
+});
+
+// ============================================================
+// GENDER CHART
+// ============================================================
+new Chart(document.getElementById('genderChart'), {
+  type: 'bar',
+  data: {
+    labels: ['15–17', '18–24', '25–34', '35–44', '45–54', '55–64', '65+'],
+    datasets: [
+      {
+        label: 'Males',
+        data: [91.7, 63.1, 69.3, 75.7, 80.6, 84.5, 63.7],
+        backgroundColor: 'rgba(201,168,76,0.5)',
+        borderColor: GOLD,
+        borderWidth: 1,
+      },
+      {
+        label: 'Females',
+        data: [98, 74.6, 76.6, 80.6, 83.5, 83.8, 69.3],
+        backgroundColor: 'rgba(231,76,60,0.45)',
+        borderColor: RUST,
+        borderWidth: 1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: SAND, boxWidth: 10, font: { size: 10 } }
+      },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: GOLD,
+        borderWidth: 1,
+        titleColor: GOLD,
+        bodyColor: CREAM,
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: SAND, font: { size: 10 } } },
+      y: { min: 0, max: 100, grid: { color: gridColor }, ticks: { color: MUTED, callback: v => v + '%' } }
+    }
+  }
+});
+
+// ============================================================
+// SEIFA CHART
+// ============================================================
+new Chart(document.getElementById('seifaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q1 Most\nDisadvantaged', 'Q2', 'Q3', 'Q4', 'Q5 Least\nDisadvantaged'],
+    datasets: [{
+      label: '% Not Meeting Guidelines',
+      data: [78.7, 78.8, 75.2, 73.2, 70.6],
+      backgroundColor: [
+        'rgba(231,76,60,0.7)',
+        'rgba(231,76,60,0.55)',
+        'rgba(201,168,76,0.45)',
+        'rgba(39,174,143,0.45)',
+        'rgba(39,174,143,0.65)',
+      ],
+      borderColor: 'rgba(201,168,76,0.3)',
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: GOLD,
+        borderWidth: 1,
+        titleColor: GOLD,
+        bodyColor: CREAM,
+        callbacks: { label: ctx => ` ${ctx.parsed.y}% inactive` }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: SAND, font: { size: 9 } } },
+      y: { min: 60, max: 90, grid: { color: gridColor }, ticks: { color: MUTED, callback: v => v + '%' } }
+    }
+  }
+});
+
+// ============================================================
+// LOCATION CHART
+// ============================================================
+new Chart(document.getElementById('locationChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Major Cities', 'Inner Regional', 'Outer Regional\n& Remote'],
+    datasets: [{
+      label: '% Not Meeting Guidelines',
+      data: [74.9, 74.1, 79.8],
+      backgroundColor: ['rgba(39,174,143,0.55)', 'rgba(201,168,76,0.45)', 'rgba(231,76,60,0.6)'],
+      borderColor: 'rgba(201,168,76,0.3)',
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: tooltipBg,
+        borderColor: GOLD,
+        borderWidth: 1,
+        titleColor: GOLD,
+        bodyColor: CREAM,
+        callbacks: { label: ctx => ` ${ctx.parsed.y}% inactive` }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: SAND, font: { size: 10 } } },
+      y: { min: 60, max: 90, grid: { color: gridColor }, ticks: { color: MUTED, callback: v => v + '%' } }
+    }
+  }
+});
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold-light)' : '';
+  });
+});
+
+
+lucide.createIcons();
+document.addEventListener('DOMContentLoaded', () => {
+
+  lucide.createIcons();
+
+
+  const topBtn = document.getElementById('topBtn');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+      topBtn.classList.add('show');
+    } else {
+      topBtn.classList.remove('show');
+    }
+  });
+
+  topBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+});
+
+
+</script>
+<button id="topBtn" aria-label="Scroll to top">
+  <i data-lucide="arrow-up"></i>
+</button>
+</body>
+</html>
