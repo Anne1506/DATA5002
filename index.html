@@ -621,7 +621,7 @@
   margin-bottom: 0.75rem;
 }
 
-..campaign-card:hover svg,
+.campaign-card:hover svg,
 .pillar-item:hover svg {
   stroke: var(--gold-light);
   transform: scale(1.05);
@@ -725,6 +725,48 @@
     display: flex;
   }
 }
+.toggle-wrap {
+  display: inline-flex;
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.toggle-btn {
+  display: flex;
+  flex-direction: column;   /* forces 2 lines */
+  align-items: center;
+  justify-content: center;
+
+  width: 120px;
+  padding: 0.6rem 0.5rem;
+
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: var(--sand);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.toggle-btn span {
+  display: block; /* ensures line break */
+}
+
+.toggle-btn:hover {
+  background: rgba(201,168,76,0.08);
+}
+
+.toggle-btn.active {
+  background: var(--gold);
+  color: var(--dark);
+}
+
 </style>
 </head>
 <body>
@@ -961,15 +1003,22 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
       <p class="inside-sub">
         Switzerland achieves high levels of physical activity compliance, while Australia struggles with inactivity. Yet both countries rank among the world's happiest - challenging our idea that <strong>higher activity means higher happiness</strong>.
       </p>
+
     </div>
 
-    <div class="charts-grid">
+    <div class="charts-grid" style="align-items: start;">
 
       <!-- Chart 1 -->
       <div class="mini-chart-block reveal">
         <div class="mini-chart-title">Meeting Physical Activity Guidelines</div>
-        <div class="mini-chart-sub">
-          % of population meeting national recommendations (2022)
+        <div class="mini-chart-sub">% of population meeting national recommendations (2022)</div>
+        <div class="toggle-wrap" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+          <button class="toggle-btn active" onclick="updateComparison('activity', this)">
+            <span>Physical</span><span>Activity</span>
+          </button>
+          <button class="toggle-btn" onclick="updateComparison('happiness', this)">
+            <span>Happiness</span><span>Reality</span>
+          </button>
         </div>
         <div class="mini-chart-wrap">
           <canvas id="compareChart"></canvas>
@@ -979,9 +1028,8 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
       <!-- Chart 2 -->
       <div class="mini-chart-block reveal reveal-delay-2">
         <div class="mini-chart-title">Switzerland Activity Breakdown</div>
-        <div class="mini-chart-sub">
-          Distribution of activity levels - Swiss population (2022)
-        </div>
+        <div class="mini-chart-sub">Distribution of activity levels - Swiss population (2022)</div>
+        <div style="height: calc(1rem + 1.5rem + 52px);"></div>
         <div class="mini-chart-wrap">
           <canvas id="swissBreakdown"></canvas>
         </div>
@@ -1288,7 +1336,7 @@ new Chart(document.getElementById('pillarsChart'), {
 // ============================================================
 
 // Chart 1: Headline Comparison
-new Chart(document.getElementById('compareChart'), {
+const compareChart = new Chart(document.getElementById('compareChart'), {
   type: 'bar',
   data: {
     labels: ['Switzerland', 'Australia'],
@@ -1588,20 +1636,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-});
-document.addEventListener('DOMContentLoaded', () => {
+}
+);
 
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.querySelector('.nav-links');
+function updateComparison(mode, btn) {
 
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
+  // toggle active state
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if (mode === 'activity') {
+
+    compareChart.data.datasets[0].data = [75.7, 24.8];
+    compareChart.data.datasets[0].label = '% Meeting Guidelines';
+
+    compareChart.options.scales.y.min = 0;
+    compareChart.options.scales.y.max = 100;
+    compareChart.options.scales.y.ticks.callback = val => val + '%';
+
+    compareChart.options.plugins.tooltip.callbacks.label = ctx =>
+      ctx.parsed.y + '% meet guidelines';
+
+  } else {
+
+    compareChart.data.datasets[0].data = [7.06, 7.06];
+    compareChart.data.datasets[0].label = 'Happiness Score';
+
+    compareChart.options.scales.y.min = 0;
+    compareChart.options.scales.y.max = 10;
+    compareChart.options.scales.y.ticks.callback = val => val;
+
+    compareChart.options.plugins.tooltip.callbacks.label = ctx =>
+      'Happiness score: ' + ctx.parsed.y;
+
   }
 
-});
-
+  compareChart.update();
+}
 </script>
 <button id="topBtn" aria-label="Scroll to top">
   <i data-lucide="arrow-up"></i>
