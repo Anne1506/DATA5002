@@ -771,7 +771,7 @@
 </head>
 <body>
 <div id="progress"></div>
-<!-- NAV -->
+
 <nav>
   <div class="nav-logo">Is Australia really as active as we think?</div>
   <div class="hamburger" id="hamburger">
@@ -791,7 +791,7 @@
   </ul>
 </nav>
 
-<!-- 01 INTRO -->
+
 <section id="intro">
   <div class="container">
     <div class="intro-grid">
@@ -831,7 +831,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 <div class="section-divider"></div>
 
-<!-- 02 PERCEPTION -->
+
 <section id="perception">
   
   <div class="container">
@@ -880,7 +880,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 
 
-<!-- 03 GLOBAL STAGE -->
+
 <section id="global">
   <div class="container">
     <div class="section-tag">World Happiness Report 2024</div>
@@ -906,7 +906,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 <div class="section-divider"></div>
 
-<!-- 04 THE PARADOX -->
+
 <section id="paradox">
   <div class="container">
     <div class="paradox-layout">
@@ -936,7 +936,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 <div class="section-divider"></div>
 
-<!-- 05 THE TRUTH -->
+
 <section id="truth">
   <div class="container">
     <div class="truth-header reveal">
@@ -1618,6 +1618,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   lucide.createIcons();
 
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinksMenu = document.querySelector('.nav-links');
+
+  hamburger.addEventListener('click', () => {
+    navLinksMenu.classList.toggle('active');
+  });
+
+  // Close menu when a nav link is clicked
+  navLinksMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksMenu.classList.remove('active');
+    });
+  });
 
   const topBtn = document.getElementById('topBtn');
 
