@@ -73,7 +73,7 @@
     overflow-x: hidden;
   }
 
-  /* NAV */
+  
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -130,7 +130,7 @@
   transition: all 0.3s ease;
 }
 
-  /* SECTIONS */
+  
   section {
     min-height: 100vh;
     padding: 80px 0 60px;
@@ -146,7 +146,7 @@
     padding: 0 2.5rem;
   }
 
-  /* SECTION LABELS */
+
   .section-tag {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.65rem;
@@ -168,7 +168,7 @@
     opacity: 0.5;
   }
 
-  /* === SECTION 1: INTRO === */
+  
   #intro {
     background: var(--dark);
     position: relative;
@@ -263,7 +263,7 @@
     color: var(--sand);
   }
 
-  /* === SECTION 2: PERCEPTION === */
+  /*SECTION 2: PERCEPTION */
   #perception {
     background: var(--charcoal);
   }
@@ -351,7 +351,7 @@
     line-height: 1.6;
   }
 
-  /* === SECTION 3: GLOBAL STAGE === */
+  /*  SECTION 3: GLOBAL STAGE */
   #global {
     background: var(--dark);
   }
@@ -386,7 +386,7 @@
     height: 320px;
   }
 
-  /* === SECTION 4: PARADOX === */
+  /*  SECTION 4: PARADOX  */
   #paradox {
     background: var(--charcoal);
     position: relative;
@@ -466,7 +466,7 @@
     line-height: 1.5;
   }
 
-  /* === SECTION 5: THE TRUTH === */
+  /*  SECTION 5: THE TRUTH  */
   #truth {
     background: var(--dark);
   }
@@ -517,7 +517,7 @@
     font-weight: 500;
   }
 
-  /* === SECTION 6: INSIDE AUSTRALIA === */
+   /* SECTION 6: INSIDE AUSTRALIA  */
   #inside {
     background: var(--charcoal);
   }
@@ -570,7 +570,7 @@
     position: relative;
   }
 
-  /* === SECTION 7: CONCLUSION === */
+  /*  SECTION 7: CONCLUSION  */
   #conclusion {
     background: var(--dark);
     min-height: auto;
@@ -670,7 +670,7 @@
     line-height: 1.8;
   }
 
-  /* Scroll reveal */
+
   .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -687,7 +687,6 @@
   .reveal-delay-3 { transition-delay: 0.3s; }
   .reveal-delay-4 { transition-delay: 0.4s; }
 
-  /* Divider */
   .section-divider {
     width: 100%;
     height: 1px;
@@ -735,7 +734,7 @@
 
 .toggle-btn {
   display: flex;
-  flex-direction: column;   /* forces 2 lines */
+  flex-direction: column;   
   align-items: center;
   justify-content: center;
 
@@ -755,7 +754,7 @@
 }
 
 .toggle-btn span {
-  display: block; /* ensures line break */
+  display: block; 
 }
 
 .toggle-btn:hover {
@@ -791,7 +790,7 @@
   </ul>
 </nav>
 
-
+<!-- 01 INTRO -->
 <section id="intro">
   <div class="container">
     <div class="intro-grid">
@@ -831,7 +830,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 <div class="section-divider"></div>
 
-
+<!-- 02 PERCEPTION -->
 <section id="perception">
   
   <div class="container">
@@ -880,7 +879,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 
 
-
+<!-- 03 GLOBAL STAGE -->
 <section id="global">
   <div class="container">
     <div class="section-tag">World Happiness Report 2024</div>
@@ -906,7 +905,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 <div class="section-divider"></div>
 
-
+<!-- 04 THE PARADOX -->
 <section id="paradox">
   <div class="container">
     <div class="paradox-layout">
@@ -936,7 +935,7 @@ Sounds like the perfect explanation… <em> but is it? </em>       </p>
 
 <div class="section-divider"></div>
 
-
+<!-- 05 THE TRUTH -->
 <section id="truth">
   <div class="container">
     <div class="truth-header reveal">
@@ -1151,9 +1150,7 @@ window.addEventListener('scroll', () => {
 });
 
 
-// ============================================================
 // TOP 10 CHART
-// ============================================================
 new Chart(document.getElementById('top10Chart'), {
   type: 'bar',
   data: {
@@ -1204,9 +1201,7 @@ new Chart(document.getElementById('top10Chart'), {
   }
 });
 
-// ============================================================
-// DRIVERS CHART (Grouped Bar)
-// ============================================================
+// DRIVERS CHART 
 new Chart(document.getElementById('driversChart'), {
   type: 'bar',
   data: {
@@ -1268,9 +1263,8 @@ new Chart(document.getElementById('driversChart'), {
   }
 });
 
-// ============================================================
-// PILLARS CHART (Truth section)
-// ============================================================
+// 
+// PILLARS CHART 
 new Chart(document.getElementById('pillarsChart'), {
   type: 'bar',
   data: {
@@ -1331,9 +1325,7 @@ new Chart(document.getElementById('pillarsChart'), {
     }
   }
 });
-// ============================================================
 // SWITZERLAND VS AUSTRALIA COMPARISON
-// ============================================================
 
 // Chart 1: Headline Comparison
 const compareChart = new Chart(document.getElementById('compareChart'), {
@@ -1421,9 +1413,7 @@ new Chart(document.getElementById('swissBreakdown'), {
     }
   }
 });
-// ============================================================
 // AGE CHART — % not meeting guidelines
-// ============================================================
 new Chart(document.getElementById('ageChart'), {
   type: 'bar',
   data: {
@@ -1460,9 +1450,7 @@ new Chart(document.getElementById('ageChart'), {
   }
 });
 
-// ============================================================
 // GENDER CHART
-// ============================================================
 new Chart(document.getElementById('genderChart'), {
   type: 'bar',
   data: {
@@ -1507,9 +1495,7 @@ new Chart(document.getElementById('genderChart'), {
   }
 });
 
-// ============================================================
-// SEIFA CHART
-// ============================================================
+
 new Chart(document.getElementById('seifaChart'), {
   type: 'bar',
   data: {
@@ -1549,9 +1535,7 @@ new Chart(document.getElementById('seifaChart'), {
   }
 });
 
-// ============================================================
 // LOCATION CHART
-// ============================================================
 new Chart(document.getElementById('locationChart'), {
   type: 'bar',
   data: {
@@ -1585,9 +1569,7 @@ new Chart(document.getElementById('locationChart'), {
   }
 });
 
-// ============================================================
 // SCROLL REVEAL
-// ============================================================
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1598,7 +1580,6 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Active nav link
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -1626,7 +1607,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinksMenu.classList.toggle('active');
   });
 
-  // Close menu when a nav link is clicked
   navLinksMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navLinksMenu.classList.remove('active');
@@ -1655,7 +1635,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function updateComparison(mode, btn) {
 
-  // toggle active state
   document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
